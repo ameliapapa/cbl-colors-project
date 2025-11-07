@@ -1,4 +1,4 @@
-import { Navbar21 } from "./components/Navbar21";
+import { Navbar1 } from "../about-me/components/Navbar1";
 import { Layout355 } from "./components/Layout355";
 import { Portfolio14 } from "./components/Portfolio14";
 import { Layout423 } from "./components/Layout423";
@@ -9,7 +9,7 @@ import { Footer1 } from "./components/Footer1";
 export default function Page() {
   return (
     <div>
-      <Navbar21 />
+      <Navbar1 />
       <Layout355 />
       <Portfolio14 />
       <Layout423 />

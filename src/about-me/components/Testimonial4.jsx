@@ -15,7 +15,7 @@ export function Testimonial4() {
             <BiSolidStar className="size-6" />
             <BiSolidStar className="size-6" />
           </div>
-          <blockquote className="text-xl font-bold md:text-2xl">
+          <blockquote className="font-neue-display text-xl font-bold md:text-2xl">
             "Working with this colorist transformed our project. His attention
             to detail and creative vision brought our story to life in ways we
             never imagined."
@@ -29,8 +29,8 @@ export function Testimonial4() {
               />
             </div>
             <div className="mb-4 md:mb-0">
-              <p>Emily Johnson</p>
-              <p>Director, Visionary Films</p>
+              <p className="font-neue-display">Emily Johnson</p>
+              <p className="font-neue-display">Director, Visionary Films</p>
             </div>
             <div className="hidden w-px self-stretch bg-black md:block" />
             <div>

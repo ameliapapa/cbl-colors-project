@@ -1,22 +1,32 @@
 "use client";
 
 import {
-  Button,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import header103Tab1 from "../../assets/header103-tab1.jpg";
+import header103Tab2 from "../../assets/header103-tab2.jpg";
+import header103Tab3 from "../../assets/header103-tab3.jpg";
+import header103Tab4 from "../../assets/header103-tab4.jpg";
 
-const useTabsTrigger = ({ defaultTabValue }) => {
+const useTabsTrigger = ({ defaultTabValue, onTabChange }) => {
   const [activeTab, setActiveTab] = useState(defaultTabValue);
+
+  const handleTabClick = (value) => {
+    setActiveTab(value);
+    if (onTabChange) {
+      onTabChange(value);
+    }
+  };
 
   const renderTrigger = (trigger) => (
     <TabsTrigger
       value={trigger.value}
-      onClick={() => setActiveTab(trigger.value)}
+      onClick={() => handleTabClick(trigger.value)}
       className="relative flex-1 whitespace-normal border-0 bg-transparent px-4 py-4 text-center text-neutral-light duration-0 data-[state=active]:bg-transparent data-[state=active]:text-neutral-white sm:px-8 md:min-w-32"
     >
       <span>{trigger.text}</span>
@@ -26,14 +36,8 @@ const useTabsTrigger = ({ defaultTabValue }) => {
           initial={{ width: "0%" }}
           animate={{ width: activeTab === trigger.value ? "100%" : "0%" }}
           transition={{
-            duration: activeTab === trigger.value ? 1.5 : 0.3,
-            ...(activeTab === trigger.value
-              ? {
-                  type: "spring",
-                  stiffness: 25,
-                  damping: 30,
-                }
-              : { ease: "easeInOut" }),
+            duration: activeTab === trigger.value ? 5 : 0.3,
+            ease: activeTab === trigger.value ? "linear" : "easeInOut",
           }}
         />
       </div>
@@ -42,50 +46,55 @@ const useTabsTrigger = ({ defaultTabValue }) => {
 
   return {
     renderTrigger,
+    activeTab,
+    setActiveTab,
   };
 };
 
 export function Header103() {
-  const tabsTriggerState = useTabsTrigger({ defaultTabValue: "tab-one" });
+  const [currentTab, setCurrentTab] = useState("tab-one");
+
+  const tabTriggers = [
+    { value: "tab-one", text: "Feature Films" },
+    { value: "tab-two", text: "Documentaries" },
+    { value: "tab-three", text: "Short Films" },
+    { value: "tab-four", text: "Animations" },
+  ];
+
+  const { renderTrigger, setActiveTab } = useTabsTrigger({
+    defaultTabValue: currentTab,
+    onTabChange: setCurrentTab,
+  });
+
+  // Auto-advance tabs every 3 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTab((prev) => {
+        const currentIndex = tabTriggers.findIndex((t) => t.value === prev);
+        const nextIndex = (currentIndex + 1) % tabTriggers.length;
+        const nextTab = tabTriggers[nextIndex].value;
+        setActiveTab(nextTab);
+        return nextTab;
+      });
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [setActiveTab, tabTriggers]);
+
   return (
     <section id="relume" className="relative min-h-screen">
-      <Tabs defaultValue="tab-one">
+      <Tabs value={currentTab} onValueChange={setCurrentTab}>
         <AnimatePresence initial={false}>
           <TabsContent
             value="tab-one"
             className="relative max-h-[60rem] min-h-screen overflow-visible"
           >
             <div className="flex h-screen flex-col items-center justify-center">
-              <div className="px-[5%] py-16 md:py-24 lg:py-28">
-                <motion.div
-                  className="mx-auto max-w-lg text-center"
-                  initial={{ y: "20%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-20%", opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <h1 className="mb-5 text-6xl font-bold text-text-alternative md:mb-6 md:text-9xl lg:text-10xl">
-                    Transforming Visual Stories Through Color
-                  </h1>
-                  <p className="text-text-alternative md:text-md">
-                    Experience the art of color grading like never before. Our
-                    expert colorist brings your vision to life, enhancing every
-                    frame with precision and creativity.
-                  </p>
-                  <div className="mt-6 flex items-center justify-center gap-x-4 md:mt-8">
-                    <Button title="Explore">Explore</Button>
-                    <Button title="Contact" variant="secondary-alt">
-                      Contact
-                    </Button>
-                  </div>
-                </motion.div>
-              </div>
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute inset-0 z-10 bg-black/50" />
+              <div className="absolute inset-0">
                 <img
                   className="size-full object-cover"
-                  src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-                  alt="Relume placeholder image 1"
+                  src={header103Tab1}
+                  alt="Film portfolio image"
                 />
               </div>
             </div>
@@ -95,36 +104,11 @@ export function Header103() {
             className="relative max-h-[60rem] min-h-screen overflow-visible"
           >
             <div className="flex h-screen flex-col items-center justify-center">
-              <div className="px-[5%] py-16 md:py-24 lg:py-28">
-                <motion.div
-                  className="mx-auto max-w-lg text-center"
-                  initial={{ y: "20%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-20%", opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <h1 className="mb-5 text-6xl font-bold text-text-alternative md:mb-6 md:text-9xl lg:text-10xl">
-                    Crafting Color for Every Project
-                  </h1>
-                  <p className="text-text-alternative md:text-md">
-                    From feature films to documentaries, our colorist tailors
-                    each project to its unique narrative. Discover how color can
-                    elevate storytelling in film.
-                  </p>
-                  <div className="mt-6 flex items-center justify-center gap-x-4 md:mt-8">
-                    <Button title="Learn">Learn</Button>
-                    <Button title="Join" variant="secondary-alt">
-                      Join
-                    </Button>
-                  </div>
-                </motion.div>
-              </div>
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute inset-0 z-10 bg-black/50" />
+              <div className="absolute inset-0">
                 <img
                   className="size-full object-cover"
-                  src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-                  alt="Relume placeholder image 2"
+                  src={header103Tab2}
+                  alt="Documentary portfolio image"
                 />
               </div>
             </div>
@@ -134,36 +118,11 @@ export function Header103() {
             className="relative max-h-[60rem] min-h-screen overflow-visible"
           >
             <div className="flex h-screen flex-col items-center justify-center">
-              <div className="px-[5%] py-16 md:py-24 lg:py-28">
-                <motion.div
-                  className="mx-auto max-w-lg text-center"
-                  initial={{ y: "20%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-20%", opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <h1 className="mb-5 text-6xl font-bold text-text-alternative md:mb-6 md:text-9xl lg:text-10xl">
-                    Your Vision, Our Color Expertise
-                  </h1>
-                  <p className="text-text-alternative md:text-md">
-                    Let us collaborate to bring your creative ideas to fruition.
-                    Our commitment to quality and detail ensures your project
-                    shines.
-                  </p>
-                  <div className="mt-6 flex items-center justify-center gap-x-4 md:mt-8">
-                    <Button title="Start">Start</Button>
-                    <Button title="Connect" variant="secondary-alt">
-                      Connect
-                    </Button>
-                  </div>
-                </motion.div>
-              </div>
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute inset-0 z-10 bg-black/50" />
+              <div className="absolute inset-0">
                 <img
                   className="size-full object-cover"
-                  src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-                  alt="Relume placeholder image 3"
+                  src={header103Tab3}
+                  alt="Commercial portfolio image"
                 />
               </div>
             </div>
@@ -173,46 +132,20 @@ export function Header103() {
             className="relative max-h-[60rem] min-h-screen overflow-visible"
           >
             <div className="flex h-screen flex-col items-center justify-center">
-              <div className="px-[5%] py-16 md:py-24 lg:py-28">
-                <motion.div
-                  className="mx-auto max-w-lg text-center"
-                  initial={{ y: "20%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: "-20%", opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <h1 className="mb-5 text-6xl font-bold text-text-alternative md:mb-6 md:text-9xl lg:text-10xl">
-                    Elevate Your Film with Stunning Color
-                  </h1>
-                  <p className="text-text-alternative md:text-md">
-                    Unlock the full potential of your visuals with expert color
-                    grading. Our passion for film and color will transform your
-                    project into a masterpiece.
-                  </p>
-                  <div className="mt-6 flex items-center justify-center gap-x-4 md:mt-8">
-                    <Button title="Discover">Discover</Button>
-                    <Button title="Inquire" variant="secondary-alt">
-                      Inquire
-                    </Button>
-                  </div>
-                </motion.div>
-              </div>
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute inset-0 z-10 bg-black/50" />
+              <div className="absolute inset-0">
                 <img
                   className="size-full object-cover"
-                  src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-                  alt="Relume placeholder image 4"
+                  src={header103Tab4}
+                  alt="Music video portfolio image"
                 />
               </div>
             </div>
           </TabsContent>
         </AnimatePresence>
         <TabsList className="absolute top-auto right-0 bottom-12 left-0 z-20 mx-auto flex justify-center gap-4 px-[5vw] md:bottom-16 lg:bottom-20 lg:max-w-xl">
-          <Fragment></Fragment>
-          <Fragment></Fragment>
-          <Fragment></Fragment>
-          <Fragment></Fragment>
+          {tabTriggers.map((trigger, index) => (
+            <Fragment key={index}>{renderTrigger(trigger)}</Fragment>
+          ))}
         </TabsList>
       </Tabs>
     </section>

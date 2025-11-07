@@ -5,17 +5,16 @@ import React from "react";
 
 export function Header47() {
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-      <div className="container">
+    <section id="relume" className="bg-cbl-light px-page pt-32 pb-16 md:pt-40 md:pb-24 lg:pt-48 lg:pb-28">
+      <div className="container max-w-container mx-auto">
         <div className="flex flex-col gap-5 md:flex-row md:gap-12 lg:gap-20">
           <div className="w-full max-w-lg">
-            <p className="mb-3 font-semibold md:mb-4">Crafting</p>
-            <h1 className="text-6xl font-bold md:text-9xl lg:text-10xl">
+            <h1 className="font-neue-display text-[60px] leading-[1.2] tracking-[-0.6px] text-cbl-black md:text-[80px] lg:text-[100px]">
               About Me
             </h1>
           </div>
           <div className="w-full max-w-lg">
-            <p className="md:text-md">
+            <p className="font-neue-display text-[20px] leading-[1.5] text-cbl-black">
               With years of experience in film post-production, I transform
               stories through the art of color. My mission is to enhance visual
               narratives, making every frame resonate with emotion and depth.

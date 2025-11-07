@@ -1,14 +1,14 @@
 import React from "react";
+import { Navbar1 } from "../about-me/components/Navbar1";
 import { Header103 } from "./components/Header103";
-import { Portfolio20 } from "./components/Portfolio20";
-import { Footer1 } from "./components/Footer1";
 
-export default function Page() {
+export default function WorksPage() {
   return (
-    <div>
+    <div className="relative">
+      <div className="absolute top-0 left-0 right-0 z-50">
+        <Navbar1 />
+      </div>
       <Header103 />
-      <Portfolio20 />
-      <Footer1 />
     </div>
   );
 }
